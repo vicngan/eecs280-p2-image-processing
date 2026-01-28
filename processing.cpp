@@ -92,11 +92,20 @@ void compute_energy_matrix(const Image* img, Matrix* energy) {
 
   for (int r = 0; r < Matrix_height(energy); r++) {
     for (int c = 0; c < Matrix_width(energy); c++) {
-      
+      int h_gradient = squared_difference(
+        Image_get_pixel(img, r, c-1), Image_get_pixel(img, r, c+1));
+      int v_gradient = squared_difference(
+        Image_get_pixel(img, r-1, c), Image_get_pixel(img, r+1,c));
+
+      int total_energy = h_gradient + v_gradient;
+      *Matrix_at(energy, r, c) = total_energy;
+
+      if (total_energy > max_energy){
+        max_energy = total_energy;
+      }
     }
   }
 
-  assert(squared_difference(Pixel(), Pixel())); // TODO delete me, this is here to make it compile
 }
 
 
