@@ -105,7 +105,7 @@ void compute_energy_matrix(const Image* img, Matrix* energy) {
       }
     }
   }
-
+  
 }
 
 
@@ -119,7 +119,15 @@ void compute_energy_matrix(const Image* img, Matrix* energy) {
 //           computed and written into it.
 //           See the project spec for details on computing the cost matrix.
 void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
-  assert(false); // TODO Replace with your implementation!
+  assert(energy != cost);
+  int height = Matrix_height(energy);
+  int width = Matrix_width(energy);
+
+  Matrix_init(cost, height, width);
+  for (int c = 0; c < width; c++) {
+    *Matrix_at(cost, 0, c) = *Matrix_at(energy, 0, c);
+    
+  }
 }
 
 
