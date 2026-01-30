@@ -199,7 +199,8 @@ vector<int> find_minimal_vertical_seam(const Matrix* cost) {
       }
       seam[r] = min_col;
     }
-  
+    return seam;
+}
 
 
 // REQUIRES: img points to a valid Image with width >= 2
@@ -215,21 +216,26 @@ vector<int> find_minimal_vertical_seam(const Matrix* cost) {
 //           then do an assignment at the end to copy it back into the
 //           original image.
 void remove_vertical_seam(Image *img, const vector<int> &seam) {
-  assert(image_width(>= 2)); 
+  assert(Image_width(img) >= 2); 
   int old_width = Image_width(img);
   int new_width = old_width -1; 
   int height = Image_height(img);
-
+ 
   Image new_img; 
   Image_init (&new_img, new_width, height); 
 
   for (int r = 0; r < height; ++r){
     int seam_col = seam[r]; 
     for (int c = 0; c < seam_col; ++c ){
-      pixel p = Image_get_pixel(img, r, c); 
+      Pixel p = Image_get_pixel(img, r, c); 
       Image_set_pixel(&new_img, r, c, p); 
     }
+    for (int c = seam_col+1 ; c < old_width; ++c){
+      Pixel p = Image_get_pixel(img, r, c);
+      Image_set_pixel(&new_img, r, c - 1, p);
+    }
   }
+  *img = new_img;
 }
 
 
@@ -243,22 +249,23 @@ void remove_vertical_seam(Image *img, const vector<int> &seam) {
 //           the underlying array.
 void seam_carve_width(Image *img, int newWidth) {
    assert(img);
-   asser(0 <newWidth && newWidth <= Image_width(img));
+   assert(0 <newWidth && newWidth <= Image_width(img));
    
    while(Image_width(img) > newWidth) {
     Matrix energy;
-    Matris cost;
+    Matrix cost;
 
     compute_energy_matrix(img, &energy);
     compute_vertical_cost_matrix(&energy , &cost);
 
     vector<int> seam = find_minimal_vertical_seam(&cost);
-    vector<int> seam = find_minimal(&energy, &cost);
+    vector<int> seam = find_minimal_vertical_seam(&energy);
 
-    vector<int> seam = find_minimal_verical_seam(&cost);
+    vector<int> seam = find_minimal_vertical_seam(&cost);
     remove_vertical_seam(img, seam);
    }
-  }
+}
+ 
 
 // REQUIRES: img points to a valid Image
 //           0 < newHeight && newHeight <= Image_height(img)
@@ -272,7 +279,7 @@ void seam_carve_height(Image *img, int newHeight) {
   assert (0 < newHeight && newHeight <= Image_height(img));
   
   rotate_left(img);
-  seam_carve_width(img; newHeight);
+  seam_carve_width(img, newHeight);
   rotate_right(img);
 }
 
