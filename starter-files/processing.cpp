@@ -268,7 +268,12 @@ void seam_carve_width(Image *img, int newWidth) {
 //           then applying seam_carve_width(img, newHeight), then rotating
 //           90 degrees right.
 void seam_carve_height(Image *img, int newHeight) {
-  assert(false); // TODO Replace with your implementation!
+  assert(img);
+  assert (0 < newHeight && newHeight <= Image_height(img));
+  
+  rotate_left(img);
+  seam_carve_width(img; newHeight);
+  rotate_right(img);
 }
 
 // REQUIRES: img points to a valid Image
