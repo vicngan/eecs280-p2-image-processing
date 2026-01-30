@@ -213,7 +213,21 @@ vector<int> find_minimal_vertical_seam(const Matrix* cost) {
 //           then do an assignment at the end to copy it back into the
 //           original image.
 void remove_vertical_seam(Image *img, const vector<int> &seam) {
-  assert(false); // TODO Replace with your implementation!
+  assert(image_width(>= 2)); 
+  int old_width = Image_width(img);
+  int new_width = old_width -1; 
+  int height = Image_height(img);
+
+  Image new_img; 
+  Image_init (&new_img, new_width, height); 
+
+  for (int r = 0; r < height; ++r){
+    int seam_col = seam[r]; 
+    for (int c = 0; c < seam_col; ++c ){
+      pixel p = Image_get_pixel(img, r, c); 
+      Image_set_pixel(&new_img, r, c, p); 
+    }
+  }
 }
 
 
