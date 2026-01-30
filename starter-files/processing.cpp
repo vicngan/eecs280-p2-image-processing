@@ -86,8 +86,11 @@ static int squared_difference(Pixel p1, Pixel p2) {
 //           image is computed and written into it.
 //           See the project spec for details on computing the energy matrix.
 void compute_energy_matrix(const Image* img, Matrix* energy) {
-  Matrix_init(energy, Image_width(img), Image_height(img)); 
+  int width = Image_width(img);
+  int height = Image_height(img);
+  Matrix_init(energy, width, height); 
   Matrix_fill(energy, 0);
+  
   int max_energy = 0;
 
   for (int r = 0; r < Matrix_height(energy); ++r) {
@@ -105,7 +108,7 @@ void compute_energy_matrix(const Image* img, Matrix* energy) {
       }
     }
   }
-  
+  Matrix_fill_border(energy, max_energy);
 }
 
 
@@ -292,10 +295,6 @@ void seam_carve(Image *img, int newWidth, int newHeight) {
   assert(newWidth > 0 && newWidth <= Image_width(img));
   assert(newHeight > 0 && newHeight < Image_height(img));
 
-  while (Image_width(img) > newWidth) {
     seam_carve_width(img, newWidth);
-  }
-  while (Image_height(img) > newHeight) {
     seam_carve_height(img, newHeight);
-  }
 }
