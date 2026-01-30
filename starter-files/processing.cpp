@@ -159,6 +159,7 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
 //           Note: When implementing the algorithm, compute the seam starting at the
 //           bottom row and work your way up.
 vector<int> find_minimal_vertical_seam(const Matrix* cost) {
+
   int height = Matrix_height(cost);
   int width = Matrix_width(cost);
 
@@ -198,7 +199,8 @@ vector<int> find_minimal_vertical_seam(const Matrix* cost) {
       }
       seam[r] = min_col;
     }
-    return seam;
+  
+
 
 // REQUIRES: img points to a valid Image with width >= 2
 //           seam.size() == Image_height(img)
@@ -226,8 +228,23 @@ void remove_vertical_seam(Image *img, const vector<int> &seam) {
 //           the right size. You can use .data() on a vector to get
 //           the underlying array.
 void seam_carve_width(Image *img, int newWidth) {
-  assert(false); // TODO Replace with your implementation!
-}
+   assert(img);
+   asser(0 <newWidth && newWidth <= Image_width(img));
+   
+   while(Image_width(img) > newWidth) {
+    Matrix energy;
+    Matris cost;
+
+    compute_energy_matrix(img, &energy);
+    compute_vertical_cost_matrix(&energy , &cost);
+
+    vector<int> seam = find_minimal_vertical_seam(&cost);
+    vector<int> seam = find_minimal(&energy, &cost);
+
+    vector<int> seam = find_minimal_verical_seam(&cost);
+    remove_vertical_seam(img, seam);
+   }
+  }
 
 // REQUIRES: img points to a valid Image
 //           0 < newHeight && newHeight <= Image_height(img)
