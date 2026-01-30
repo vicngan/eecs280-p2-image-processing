@@ -134,10 +134,10 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
       if (c > 0) {
         min_cost = std::min(min_cost, *Matrix_at(cost, r-1, c-1));
       }
-      else if (c == 0) {
+      if (c == 0) {
         min_cost = std::min(min_cost, *Matrix_at(cost, r-1, c));
       } 
-      else if (c < width - 1) {
+      if (c < width - 1) {
         min_cost = std::min(min_cost, *Matrix_at(cost, r-1, c+1));
       }
 
@@ -159,7 +159,49 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
 //           Note: When implementing the algorithm, compute the seam starting at the
 //           bottom row and work your way up.
 vector<int> find_minimal_vertical_seam(const Matrix* cost) {
-  assert(false); // TODO Replace with your implementation!
+  int height = Matrix_height(cost);
+  int width = Matrix_width(cost);
+
+  vector<int>seam(height, 0); 
+  int min_col = 0; 
+  int min_cost = *Matrix_at(cost, height - 1, 0); 
+
+  for (int c= 1; c < width; ++c) {
+    int current_cost = *Matrix_at(cost, height-1, c); 
+    if (current_cost < min_cost){
+      min_cost = current_cost; 
+      min_col = c; 
+    }
+  }
+    seam[height-1] = min_col; 
+    for (int r = height - 2; r >= 0; --r){
+      int prev_col = seam[r+1];
+      int min_col = prev_col; 
+      int min_cost = *Matrix_at(cost, r, prev_col);
+      if (prev_col > 0) {
+        int left_cost = *Matrix_at(cost, r, prev_col -1); 
+        if (left_cost < min_cost) {
+          min_cost = left_cost;
+          min_col = prev_col - 1;
+        }
+      }
+      if (prev_col == 0){
+        min_cost = *Matrix_at(cost, r, prev_col);
+        min_col = prev_col;
+      }
+      if (prev_col < width - 1) {
+        int right_cost = *Matrix_at(cost, r, prev_col + 1); 
+        if (right_cost < min_cost) {
+          min_cost = right_cost;
+          min_col = prev_col + 1;
+        }
+      }
+      seam[r] = min_col;
+    }
+  
+
+
+
 }
 
 
