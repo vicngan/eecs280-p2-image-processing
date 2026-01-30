@@ -159,17 +159,6 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
 //           Note: When implementing the algorithm, compute the seam starting at the
 //           bottom row and work your way up.
 vector<int> find_minimal_vertical_seam(const Matrix* cost) {
-<<<<<<< HEAD
-  int w = Matrix_width(cost);
-  int h = Matrix_height(cost);
-  
-  vector<int> seam();
-
-  int r = h -1;
-  int bestC =0;
-  
-;
-=======
   int height = Matrix_height(cost);
   int width = Matrix_width(cost);
 
@@ -209,13 +198,7 @@ vector<int> find_minimal_vertical_seam(const Matrix* cost) {
       }
       seam[r] = min_col;
     }
-  
-
-
-
->>>>>>> 044109d9541e9dcf8b430195d3dff65dbdd6d15e
-}
-
+    return seam;
 
 // REQUIRES: img points to a valid Image with width >= 2
 //           seam.size() == Image_height(img)
