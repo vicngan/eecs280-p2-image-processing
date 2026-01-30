@@ -113,13 +113,13 @@ void Matrix_fill_border(Matrix* mat, int value) {
 int Matrix_max(const Matrix* mat) {
   int max_val = *Matrix_at(mat, 0, 0);  //first pixel value as initial start 
   for (int r = 0; r < Matrix_height(mat); r++) {
-    for (int c = 0; c < Matrix_width(mat); c++) {
+    for (int c; c < Matrix_width(mat); c++) {
       if (*Matrix_at(mat, r, c) > max_val) {
         max_val = *Matrix_at(mat, r, c); 
         return max_val;
       }
     }
-  } return 0;
+  }
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -147,7 +147,6 @@ int Matrix_column_of_min_value_in_row(const Matrix* mat, int row,
       return min_col; 
     }
   }
-  return 0;
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -162,13 +161,12 @@ int Matrix_min_value_in_row(const Matrix* mat, int row,
   assert (row >= 0 && row < Matrix_height(mat)); 
   assert (column_start >= 0 && column_end <= Matrix_width(mat)); 
   assert (column_start < column_end);
-                              
+    
   int min_val = *Matrix_at(mat, row, column_start); 
   for (int c = column_start; c < column_end; c++) {
     if (*Matrix_at(mat, row, c) < min_val) {
         min_val = *Matrix_at(mat, row, c); 
         return min_val;
-    }
-  } 
-  return 0;
-} 
+  }
+
+}
