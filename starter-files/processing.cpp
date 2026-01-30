@@ -280,5 +280,13 @@ void seam_carve_height(Image *img, int newHeight) {
 // NOTE:     This is equivalent to applying seam_carve_width(img, newWidth)
 //           and then applying seam_carve_height(img, newHeight).
 void seam_carve(Image *img, int newWidth, int newHeight) {
-  assert(false); // TODO Replace with your implementation!
+  assert(newWidth > 0 && newWidth < Image_width(img));
+  assert(newHeight > 0 && newHeight < Image_height(img));
+
+  while (Image_width(img) > newWidth) {
+    seam_carve_width(img, newWidth);
+  }
+  while (Image_height(img) > newHeight) {
+    seam_carve_height(img, newHeight);
+  }
 }
