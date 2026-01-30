@@ -90,8 +90,8 @@ void compute_energy_matrix(const Image* img, Matrix* energy) {
   Matrix_fill(energy, 0);
   int max_energy = 0;
 
-  for (int r = 0; r < Matrix_height(energy); r++) {
-    for (int c = 0; c < Matrix_width(energy); c++) {
+  for (int r = 0; r < Matrix_height(energy); ++r) {
+    for (int c = 0; c < Matrix_width(energy); ++c) {
       int h_gradient = squared_difference(
         Image_get_pixel(img, r, c-1), Image_get_pixel(img, r, c+1));
       int v_gradient = squared_difference(
@@ -124,12 +124,28 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
   int width = Matrix_width(energy);
 
   Matrix_init(cost, height, width);
-  for (int c = 0; c < width; c++) {
+  for (int c = 0; c < width; ++c) {
     *Matrix_at(cost, 0, c) = *Matrix_at(energy, 0, c);
-    
   }
-}
 
+  for (int r = 1; r < height; ++r) {
+    for (int c = 0; c < width; ++c) {
+      int min_cost = *Matrix_at(cost, r-1, c);
+      if (c > 0) {
+        min_cost = std::min(min_cost, *Matrix_at(cost, r-1, c-1));
+      }
+      else if (c == 0) {
+        min_cost = std::min(min_cost, *Matrix_at(cost, r-1, c));
+      } 
+      else if (c < width - 1) {
+        min_cost = std::min(min_cost, *Matrix_at(cost, r-1, c+1));
+      }
+
+      *Matrix_at(cost, r, c) = *Matrix_at(energy, r, c) + min_cost;
+    }
+  }
+    }
+  
 
 // REQUIRES: cost points to a valid Matrix
 // EFFECTS:  Returns the vertical seam with the minimal cost according to the given
