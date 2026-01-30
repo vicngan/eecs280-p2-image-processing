@@ -198,9 +198,9 @@ vector<int> find_minimal_vertical_seam(const Matrix* cost) {
         }
       }
       seam[r] = min_col;
+      return seam;
     }
-    return seam;
-}
+    }
 
 
 // REQUIRES: img points to a valid Image with width >= 2
@@ -301,4 +301,5 @@ void seam_carve(Image *img, int newWidth, int newHeight) {
   while (Image_height(img) > newHeight) {
     seam_carve_height(img, newHeight);
   }
+
 }
