@@ -13,6 +13,7 @@ void Image_init(Image* img, int width, int height) {
   img -> width = width;
   img -> height = height; 
 
+  //initializing the three color channels
   Matrix_init (&img->red_channel, width, height);
   Matrix_init (&img->green_channel, width, height);
   Matrix_init (&img->blue_channel, width, height);
@@ -27,7 +28,31 @@ void Image_init(Image* img, int width, int height) {
 //           from the given input stream.
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
-  assert(false); // TODO Replace with your implementation!
+  assert (img != nullptr);
+  std::string ppm_type;
+
+  int width, height, max_color_value;
+  if (!(is >> ppm_type >> width >> height >> max_color_value)) {
+    return ; //Invald PPM format
+
+  assert(ppm_type == "P3");
+  assert (width > 0 && height > 0); 
+  assert (max_color_value == 255); 
+
+  Image_init (img, width, height); 
+  for (int r = 0; r < height; ++r){
+    for (int c = 0; c < width; ++c){
+      int red, green, blue;
+      is >> red >> green >> blue; //reading pixel values
+      *Matrix_at(&img -> red_channel, r, c) = red; 
+      *Matrix_at(&img -> green_channel, r, c) = green; 
+      *Matrix_at(&img -> blue_channel, r, c) = blue;
+
+      Pixel p = {red, green, blue};
+      Image_set_pixel(img, r, c, p); //setting pixel values
+    }
+  }
+  
 }
 
 // REQUIRES: img points to a valid Image
