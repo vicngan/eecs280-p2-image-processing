@@ -55,7 +55,6 @@ void Image_init(Image* img, std::istream& is) {
   }
 
 }
-}// TODO Replace with your implementation!
 
 
 
@@ -77,17 +76,17 @@ void Image_print(const Image* img, std::ostream& os) {
   assert(img != nullptr);
    //Header
   
-   os << "P3\n";
-   os << Image_width(img) << " " << Image_height(img) << "\n";
-   os << "255\n";
+  os << "P3\n";
+  os << Image_width(img) << " " << Image_height(img) << "\n";
+  os << "255\n";
 
-    for (int r = 0; r < Image_height(img); r++){
-   for (int c = 0; c < Image_width(img); c++){
-    }
-    Pixel p = Image_get_pixel(img, r, c);
-      os << p.r << " " << p.g << " " << p.b << " ";
+  for (int r = 0; r < Image_height(img); r++){
+  for (int c = 0; c < Image_width(img); c++){
   }
-        os << "\n";
+  Pixel p = Image_get_pixel(img, r, c);
+    os << p.r << " " << p.g << " " << p.b << " ";
+  }
+    os << "\n";
 }   
   
 
@@ -150,5 +149,9 @@ void Image_set_pixel(Image* img, int row, int column, Pixel color) {
 // EFFECTS:  Sets each pixel in the image to the given color.
 void Image_fill(Image* img, Pixel color) {
   assert(img != nullptr);
-  return; // TODO Replace with your implementation!
+  for (int r = 0; r < Image_height(img); r++){
+    for (int c = 0; c < Image_width(img); c++){
+      Image_set_pixel(img, r, c, color);
+    }
+  }
 }
