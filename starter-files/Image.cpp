@@ -27,15 +27,14 @@ void Image_init(Image* img, int width, int height) {
 //           from the given input stream.
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
-   assert (img != nullptr);
-   assert (img != nullptr);
+  assert (img != nullptr);
 
   std::string ppm_type;
 
   int width, height, max_color_value;
   if (!(is >> ppm_type >> width >> height >> max_color_value)) {
     return ; //Invald PPM format
-
+  }
   assert(ppm_type == "P3");
   assert (width > 0 && height > 0); 
   assert (max_color_value == 255); 
@@ -53,7 +52,6 @@ void Image_init(Image* img, std::istream& is) {
       Image_set_pixel(img, r, c, p); //setting pixel values
     }
   }
-
 }
 
 
@@ -81,15 +79,14 @@ void Image_print(const Image* img, std::ostream& os) {
   os << "255\n";
 
   for (int r = 0; r < Image_height(img); r++){
-  for (int c = 0; c < Image_width(img); c++){
-  }
-  Pixel p = Image_get_pixel(img, r, c);
-    os << p.r << " " << p.g << " " << p.b << " ";
-  }
+    for (int c = 0; c < Image_width(img); c++){
+      Pixel p = Image_get_pixel(img, r, c);
+        os << p.r << " " << p.g << " " << p.b << " ";
+    }
     os << "\n";
+  }
 }   
   
-
 
 // REQUIRES: img points to a valid Image
 // EFFECTS:  Returns the width of the Image.
@@ -121,6 +118,8 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
   p.r = *Matrix_at(&img->red_channel, row, column);
   p.g = *Matrix_at(&img->green_channel, row, column);
   p.b = *Matrix_at(&img->blue_channel, row, column);
+
+  return p;
 }
 
 
