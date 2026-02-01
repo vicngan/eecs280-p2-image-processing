@@ -18,8 +18,11 @@ void Image_init(Image* img, int width, int height) {
   Matrix_init (&img->green_channel, width, height);
   Matrix_init (&img->blue_channel, width, height);
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> ec5ccd411db4f62fad491e7c4b046bda4a18ffc6
 }
 
 // REQUIRES: img points to an Image
@@ -30,7 +33,11 @@ void Image_init(Image* img, int width, int height) {
 //           from the given input stream.
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
+<<<<<<< HEAD
    assert (img != nullptr);
+=======
+  assert (img != nullptr);
+>>>>>>> ec5ccd411db4f62fad491e7c4b046bda4a18ffc6
   std::string ppm_type;
 
   int width, height, max_color_value;
@@ -54,8 +61,13 @@ void Image_init(Image* img, std::istream& is) {
       Image_set_pixel(img, r, c, p); //setting pixel values
     }
   }
+<<<<<<< HEAD
+=======
+  
+>>>>>>> ec5ccd411db4f62fad491e7c4b046bda4a18ffc6
 }
 }// TODO Replace with your implementation!
+
 
 
 // REQUIRES: img points to a valid Image
