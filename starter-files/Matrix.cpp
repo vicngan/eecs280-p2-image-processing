@@ -27,16 +27,18 @@ void Matrix_init(Matrix* mat, int width, int height) {
 //           by a newline. This means there will be an "extra" space at
 //           the end of each line.
 void Matrix_print(const Matrix* mat, std::ostream& os) {
-  assert (mat != nullptr); 
+  assert(mat != nullptr);
 
-  os << (*mat).width << " " << (*mat).height << "\n";
-  for (int r = 0; r < (*mat).height; r++) {
-    for (int c = 0; c < (*mat).width; c++) {
-      os << (*mat).data [r * (*mat).width + c] << " "; 
+  os << mat->width << " " << mat->height << "\n";
+
+  for (int r = 0; r < mat->height; ++r) {
+    for (int c = 0; c < mat->width; ++c) {
+      os << mat->data[r * mat->width + c] << " ";
     }
     os << "\n";
   }
 }
+
 
 // REQUIRES: mat points to a valid Matrix
 // EFFECTS:  Returns the width of the Matrix.
@@ -99,15 +101,13 @@ void Matrix_fill(Matrix* mat, int value) {
 void Matrix_fill_border(Matrix* mat, int value) {
   int h = Matrix_height(mat);
   int w = Matrix_width(mat);
-  for (int i = 0; i < w; i++) { //top and bottom rows
+  for (int i = 0; i < w; i++) {
     *Matrix_at(mat, 0, i) = value;
     *Matrix_at(mat, h-1, i) = value; 
-  }
-
-  for (int i = 0; i < h; i++) { //left and right columns
-    *Matrix_at(mat, i, 0) = value;
-    *Matrix_at(mat, i, w-1) = value;
-  }
+  for (int i = 0; i < h; i++) {
+    *Matrix_at(mat, 0, i) = value;
+    *Matrix_at(mat, w-1, i) = value;
+  }}
 }
 
 
@@ -119,9 +119,10 @@ int Matrix_max(const Matrix* mat) {
     for (int c = 0; c < Matrix_width(mat); c++) {
       if (*Matrix_at(mat, r, c) > max_val) {
         max_val = *Matrix_at(mat, r, c); 
+        return max_val;
       }
     }
-  } return max_val;
+  } return 0;
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -146,9 +147,10 @@ int Matrix_column_of_min_value_in_row(const Matrix* mat, int row,
     if(*Matrix_at(mat, row, c) < min_val) {
       min_val = *Matrix_at(mat, row, c);
       min_col = c; 
+      return min_col; 
     }
   }
-  return min_col;
+  return 0;
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -168,7 +170,9 @@ int Matrix_min_value_in_row(const Matrix* mat, int row,
   for (int c = column_start; c < column_end; c++) {
     if (*Matrix_at(mat, row, c) < min_val) {
         min_val = *Matrix_at(mat, row, c); 
+        return min_val;
     }
   } 
-  return min_val;
+  return 0;
 } 
+
