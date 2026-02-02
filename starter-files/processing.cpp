@@ -93,8 +93,8 @@ void compute_energy_matrix(const Image* img, Matrix* energy) {
 
   int max_energy = 0;
 
-  for (int r = 0; r < height - 1; ++r) {
-    for (int c = 0; c < width - 1; ++c) {
+  for (int r = 1; r < height - 1; ++r) {
+    for (int c = 1; c < width - 1; ++c) {
       int h_gradient = squared_difference(
         Image_get_pixel(img, r, c-1), Image_get_pixel(img, r, c+1));
       int v_gradient = squared_difference(
@@ -199,6 +199,7 @@ vector<int> find_minimal_vertical_seam(const Matrix* cost) {
       }
       seam[r] = min_col;
   }
+  return seam; 
 }
 
 // REQUIRES: img points to a valid Image with width >= 2
