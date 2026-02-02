@@ -38,8 +38,6 @@ int main(int argc, char *argv[]) {
     Image_init (img, in_file);
     in_file.close(); 
 
-    Image *resized_img = nullptr; 
-
     int new_height = (argc == 5) ? atoi(argv[4]): Image_height(img); 
     if (new_width <= 0 || new_width > Image_width(img) ||
         new_height <= 0 || new_height > Image_height (img)){
