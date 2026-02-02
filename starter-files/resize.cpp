@@ -62,7 +62,3 @@ int main(int argc, char *argv[]) {
     delete img; 
     return 0;
 }
-
-
-
-
