@@ -127,21 +127,28 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
   int width = Matrix_width(energy);
 
   Matrix_init(cost, width, height);
+  //initialize first row
   for (int c = 0; c < width; ++c) {
     *Matrix_at(cost, 0, c) = *Matrix_at(energy, 0, c);
   }
-
+  //remaining rows 
   for (int r = 1; r < height; ++r) {
     for (int c = 0; c < width; ++c) {
       int min_cost = *Matrix_at(cost, r-1, c);
+
       if (c > 0) {
-        min_cost = std::min(min_cost, *Matrix_at(cost, r-1, c-1));
+        int left_cost = *Matrix_at(cost, r-1, c-1);
+        if (left_cost < min_cost) {
+          min_cost = left_cost;
+        }
       }
-      if (c == 0) {
-        min_cost = std::min(min_cost, *Matrix_at(cost, r-1, c));
-      } 
+
+
       if (c < width - 1) {
-        min_cost = std::min(min_cost, *Matrix_at(cost, r-1, c+1));
+        int right_cost = *Matrix_at(cost, r-1, c+1);
+        if (right_cost < min_cost) {
+          min_cost = right_cost;
+        }
       }
 
       *Matrix_at(cost, r, c) = *Matrix_at(energy, r, c) + min_cost;
@@ -165,8 +172,9 @@ vector<int> find_minimal_vertical_seam(const Matrix* cost) {
 
   int height = Matrix_height(cost);
   int width = Matrix_width(cost);
+  vector<int>seam(height); 
 
-  vector<int>seam(height, 0); 
+  //find min in last row  
   int min_col = 0; 
   int min_cost = *Matrix_at(cost, height - 1, 0); 
 
@@ -178,11 +186,15 @@ vector<int> find_minimal_vertical_seam(const Matrix* cost) {
     }
   }
     seam[height-1] = min_col; 
+    //work upwards to find rest of seam
     for (int r = height - 2; r >= 0; --r){
       int prev_col = seam[r+1];
+
+      //default to the pixel right above
       int min_col = prev_col; 
       int min_cost = *Matrix_at(cost, r, prev_col);
 
+      //check left
       if (prev_col > 0) {
         int left_cost = *Matrix_at(cost, r, prev_col -1); 
         if (left_cost <= min_cost) {
@@ -190,6 +202,7 @@ vector<int> find_minimal_vertical_seam(const Matrix* cost) {
           min_col = prev_col - 1;
         }
       }
+      //check right
       if (prev_col < width - 1) {
         int right_cost = *Matrix_at(cost, r, prev_col + 1); 
         if (right_cost < min_cost) {
@@ -225,6 +238,8 @@ void remove_vertical_seam(Image *img, const vector<int> &seam) {
 
   for (int r = 0; r < height; ++r){
     int seam_col = seam[r]; 
+
+    //copying pixels before and after seam
     for (int c = 0; c < seam_col; ++c ){
       Pixel p = Image_get_pixel(img, r, c); 
       Image_set_pixel(&new_img, r, c, p); 
