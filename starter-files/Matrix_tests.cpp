@@ -116,6 +116,45 @@ TEST(Matrix_passing_const_Matrix) {
   ASSERT_EQUAL(*Matrix_at(const_mat, 1,2),30);
 }
 
-TEST
+TEST(identical_min_value_in_row) {
+  Matrix mat;
+  Matrix_init(&mat, 3,3); 
+  Matrix_fill(&mat, 5);
+  *Matrix_at(&mat, 1,0) = 2;
+  *Matrix_at(&mat, 1,1) = 2;
+  *Matrix_at(&mat, 1,2) = 2;
+
+  vector<int>seam = find_minimal_vertical_seam(&mat);
+  ASSERT_EQUAL(seam.size(), 3);
+  ASSERT_EQUAL(seam[0], 0); // first row, leftmost min
+  ASSERT_EQUAL(seam[1], 0); // second row, leftmost min
+  ASSERT_EQUAL(seam[2], 0); // third row, leftmost min
+}
+
+TEST (test_column_of_min_value_left) {
+  Matrix mat; 
+  Matrix_init(&mat, 5, 1); 
+  *Matrix_at(&mat, 0,0) = 10;
+  *Matrix_at(&mat, 0,1) = 5;
+  *Matrix_at(&mat, 0,2) = 5;
+  *Matrix_at(&mat, 0,3) = 5;
+  *Matrix_at(&mat, 0,4) = 10;
+
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat, 0,0,5),1);
+}
+
+TEST(test_min_value_in_range) {
+  Matrix mat; 
+  Matrix_init(&mat, 5, 1); 
+  Matrix_fill(&mat, 10);
+  *Matrix_at(&mat, 0,0) = 1; 
+  *Matrix_at(&mat, 0,4) = 1;
+
+  int min_val = Matrix_min_value_in_row(&mat, 0, 1,4);
+  ASSERT_EQUAL(min_val,10);
+  
+  int min_col = Matrix_column_of_min_value_in_row(&mat, 0, 1,4);
+  ASSERT_EQUAL(min_col,1);
+}
 
 TEST_MAIN()
