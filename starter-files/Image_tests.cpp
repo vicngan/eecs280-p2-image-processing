@@ -1,4 +1,5 @@
 #include "Matrix.hpp"
+#include "Image.hpp"
 #include "Image_test_helpers.hpp"
 #include "unit_test_framework.hpp"
 #include <iostream>
@@ -95,7 +96,7 @@ TEST(test_set_overwrite_pixel) {
   ASSERT_EQUAL(got.b, 50);
 }
 
-// ✅ NEW: checks bottom-right corner pixel (width-1, height-1)
+
 TEST(test_set_get_corner_pixel) {
   Image img;
   Image_init(&img, 4, 3); // width=4, height=3 => corner is (3,2)
@@ -109,7 +110,7 @@ TEST(test_set_get_corner_pixel) {
   ASSERT_EQUAL(got.b, 7);
 }
 
-// ✅ NEW: set multiple pixels and verify all via get (stronger than print-only)
+
 TEST(test_set_multiple_pixels_and_get_all) {
   Image img;
   Image_init(&img, 3, 2);
