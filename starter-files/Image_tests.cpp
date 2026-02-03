@@ -48,7 +48,7 @@ TEST(test_init_pixels_zero) {
   Image_init(&img, 2, 3);
 
   Pixel p00 = Image_get_pixel(&img, 0, 0);
-  Pixel p12 = Image_get_pixel(&img, 1, 2);
+  Pixel p12 = Image_get_pixel(&img, 2, 1);
 
   ASSERT_EQUAL(p00.r, 0);
   ASSERT_EQUAL(p00.g, 0);
@@ -101,9 +101,9 @@ TEST(test_set_get_corner_pixel) {
   Image_init(&img, 4, 3); // width=4, height=3 => corner is (3,2)
 
   const Pixel corner = {9, 8, 7};
-  Image_set_pixel(&img, 3, 2, corner);
+  Image_set_pixel(&img, 2, 3, corner);
 
-  Pixel got = Image_get_pixel(&img, 3, 2);
+  Pixel got = Image_get_pixel(&img, 2, 3);
   ASSERT_EQUAL(got.r, 9);
   ASSERT_EQUAL(got.g, 8);
   ASSERT_EQUAL(got.b, 7);
