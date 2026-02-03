@@ -114,34 +114,50 @@ TEST(test_set_multiple_pixels_and_get_all) {
   Image img;
   Image_init(&img, 3, 2);
 
-  const Pixel a = {1, 2, 3};
-  const Pixel b = {4, 5, 6};
-  const Pixel c = {7, 8, 9};
+  const Pixel bg = {99,99,99};
+  for (int r = 0; r < 2; ++r) {
+    for (int c = 0; c < 3; ++c) {
+      Image_set_pixel(&img, r, c, bg);
+    }
+  }
+  const Pixel p00 = {0,0,0};
+  const Pixel p01 = {0,10,1}; 
+  const Pixel p02 = {0,20,2};
+  const Pixel p10 = {10,0,10};
+  const Pixel p11 = {10,10,11};
+  const Pixel p12 = {10,20,12};
+  Image_set_pixel(&img, 0, 0, p00);
+  Image_set_pixel(&img, 0, 1, p01);
+  Image_set_pixel(&img, 0, 2, p02);
+  Image_set_pixel(&img, 1, 0, p10);
+  Image_set_pixel(&img, 1, 1, p11);
+  Image_set_pixel(&img, 1, 2, p12);
 
-  Image_set_pixel(&img, 0, 0, a);
-  Image_set_pixel(&img, 2, 0, b);
-  Image_set_pixel(&img, 1, 1, c);
-
-  Pixel got_a = Image_get_pixel(&img, 0, 0);
-  Pixel got_b = Image_get_pixel(&img, 2, 0);
-  Pixel got_c = Image_get_pixel(&img, 1, 1);
-  Pixel still_zero = Image_get_pixel(&img, 1, 0);
-
-  ASSERT_EQUAL(got_a.r, 1);
-  ASSERT_EQUAL(got_a.g, 2);
-  ASSERT_EQUAL(got_a.b, 3);
-
-  ASSERT_EQUAL(got_b.r, 4);
-  ASSERT_EQUAL(got_b.g, 5);
-  ASSERT_EQUAL(got_b.b, 6);
-
-  ASSERT_EQUAL(got_c.r, 7);
-  ASSERT_EQUAL(got_c.g, 8);
-  ASSERT_EQUAL(got_c.b, 9);
-
-  ASSERT_EQUAL(still_zero.r, 0);
-  ASSERT_EQUAL(still_zero.g, 0);
-  ASSERT_EQUAL(still_zero.b, 0);
+  Pixel got; 
+  got = Image_get_pixel(&img, 0, 0);
+  ASSERT_EQUAL(got.r, 0);
+  ASSERT_EQUAL(got.g, 0);
+  ASSERT_EQUAL(got.b, 0);
+  got = Image_get_pixel(&img, 0, 1);
+  ASSERT_EQUAL(got.r, 0); 
+  ASSERT_EQUAL(got.g,10); 
+  ASSERT_EQUAL(got.b,1); 
+  got = Image_get_pixel(&img, 0, 2);
+  ASSERT_EQUAL(got.r, 0); 
+  ASSERT_EQUAL(got.g,20); 
+  ASSERT_EQUAL(got.b,2); 
+  got = Image_get_pixel(&img, 1, 0);
+  ASSERT_EQUAL(got.r, 10); 
+  ASSERT_EQUAL(got.g,0); 
+  ASSERT_EQUAL(got.b,10); 
+  got = Image_get_pixel(&img, 1, 1);
+  ASSERT_EQUAL(got.r, 10); 
+  ASSERT_EQUAL(got.g,10); 
+  ASSERT_EQUAL(got.b,11); 
+  got = Image_get_pixel(&img, 1, 2);
+  ASSERT_EQUAL(got.r,10); 
+  ASSERT_EQUAL(got.g,20); 
+  ASSERT_EQUAL(got.b,12);  
 }
 
 TEST(test_print_1x1) {
