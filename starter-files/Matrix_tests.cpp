@@ -90,7 +90,7 @@ TEST(test_matrix_print){
   *Matrix_at(&mat, 0,1) = 2; 
   *Matrix_at(&mat, 0,2) = 3; 
   *Matrix_at(&mat, 0,3) = 4;
-  *Matrix_at(&mat, 0,4) = 5;
+  *Matrix_at(&mat, 1,0) = 5;
 
   ostringstream expected;
   expected << "4 4\n"

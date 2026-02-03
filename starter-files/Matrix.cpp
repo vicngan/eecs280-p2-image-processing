@@ -99,15 +99,16 @@ void Matrix_fill(Matrix* mat, int value) {
 //           the given value. These are all elements in the first/last
 //           row or the first/last column.
 void Matrix_fill_border(Matrix* mat, int value) {
-  int h = Matrix_height(mat);
-  int w = Matrix_width(mat);
-  for (int i = 0; i < w; i++) {
-    *Matrix_at(mat, 0, i) = value;
-    *Matrix_at(mat, h-1, i) = value; 
-  for (int i = 0; i < h; i++) {
-    *Matrix_at(mat, 0, i) = value;
-    *Matrix_at(mat, w-1, i) = value;
-  }}
+  int height = Matrix_height(mat);
+  int width = Matrix_width(mat);
+  for (int c = 0; c < width; ++c) {
+    *Matrix_at(mat, 0, c) = value;
+    *Matrix_at(mat, height - 1, c) = value;
+  }
+  for (int r = 0; r < height; ++r) {
+    *Matrix_at(mat, r, 0) = value;
+    *Matrix_at(mat, r, width - 1) = value;
+  }
 }
 
 
@@ -175,4 +176,3 @@ int Matrix_min_value_in_row(const Matrix* mat, int row,
   } 
   return 0;
 } 
-
