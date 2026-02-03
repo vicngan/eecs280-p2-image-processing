@@ -29,7 +29,6 @@ TEST(test_print_basic) {
 
   ostringstream correct;
   correct << "P3\n2 2\n255\n";
-  correct << "255 0 255 0 0 0 \n";
   correct << "255 0 0 0 255 0 \n";
   correct << "0 0 255 255 255 255 \n";
   ASSERT_EQUAL(s.str(), correct.str());
@@ -172,7 +171,7 @@ TEST(test_print_rectangular_2x3) {
 
   Image_set_pixel(&img, 0, 0, a);
   Image_set_pixel(&img, 1, 1, b);
-  Image_set_pixel(&img, 0, 2, c);
+  Image_set_pixel(&img, 2, 0, c);
 
   ostringstream s;
   Image_print(&img, s);
@@ -184,6 +183,48 @@ TEST(test_print_rectangular_2x3) {
   correct << "70 80 90 0 0 0 \n";
 
   ASSERT_EQUAL(s.str(), correct.str());
+}
+
+TEST(test_image_init_from_stream) {
+  string input = "P3\n2 2\n255\n"
+                  "255 0 0 0 255 0 \n"
+                  "0 0 255 255 255 255 \n";
+  istringstream ss(input);
+  Image img; 
+
+  Image_init(&img, ss); 
+  ASSERT_EQUAL(Image_width(&img), 2);
+  ASSERT_EQUAL(Image_height(&img), 2);
+
+  Pixel p00 = Image_get_pixel(&img, 0, 0);
+  ASSERT_EQUAL(p00.r, 255);
+  ASSERT_EQUAL(p00.g, 0);
+  ASSERT_EQUAL(p00.b, 0);
+
+  Pixel p11 = Image_get_pixel(&img, 1, 1);
+  ASSERT_EQUAL(p11.r, 255);
+  ASSERT_EQUAL(p11.g, 255);
+  ASSERT_EQUAL(p11.b, 255);
+}
+
+
+TEST(test_image_init_from_stream_whitespace) {
+  string input = "P3\n2 2\n255\n"
+                  "255 0 0 \n0 255 0 \n"
+                  "0 0 255\n255 255 255 \n";
+  istringstream ss(input);
+  Image img; 
+
+  Image_init(&img, ss); 
+  ASSERT_EQUAL(Image_width(&img), 2);
+  ASSERT_EQUAL(Image_height(&img), 2);
+
+  Pixel p10 = Image_get_pixel(&img, 1, 0);
+  ASSERT_EQUAL(p10.r, 0);
+  ASSERT_EQUAL(p10.g, 0);
+  ASSERT_EQUAL(p10.b, 255);
+
+  
 }
 
 TEST_MAIN() // Do NOT put a semicolon here
