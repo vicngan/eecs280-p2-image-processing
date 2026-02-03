@@ -103,5 +103,19 @@ TEST(test_matrix_print){
   ASSERT_EQUAL(expected.str(), actual.str());
 }
 
+TEST(Matrix_passing_const_Matrix) {
+  Matrix mat; 
+  Matrix_init(&mat, 2,3);
+  *Matrix_at(&mat, 0,0) = 10; 
+  *Matrix_at(&mat, 1,2) = 30;
+  const Matrix* const_mat = &mat; 
+
+  ASSERT_EQUAL(Matrix_width(const_mat),2);
+  ASSERT_EQUAL(Matrix_height(const_mat),3);
+  ASSERT_EQUAL(*Matrix_at(const_mat, 0,0),10);
+  ASSERT_EQUAL(*Matrix_at(const_mat, 1,2),30);
+}
+
+TEST
 
 TEST_MAIN()
