@@ -124,10 +124,9 @@ TEST(identical_min_value_in_row) {
   *Matrix_at(&mat, 1,1) = 2;
   *Matrix_at(&mat, 1,2) = 2;
 
-  ASSERT_EQUAL(seam.size(), 3);
-  ASSERT_EQUAL(seam[0], 0); // first row, leftmost min
-  ASSERT_EQUAL(seam[1], 0); // second row, leftmost min
-  ASSERT_EQUAL(seam[2], 0); // third row, leftmost min
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat, 0, 0, 3), 0);
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat, 1, 0, 3), 0);
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat, 2, 0, 3), 0);
 }
 
 TEST (test_column_of_min_value_left) {
