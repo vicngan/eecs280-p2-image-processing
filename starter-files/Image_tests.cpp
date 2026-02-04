@@ -243,4 +243,25 @@ TEST(test_image_init_from_stream_whitespace) {
   
 }
 
+TEST(test_image_fill_overwrites_all_pixels) {
+  Image img;
+  Image_init(&img, 4, 3);
+
+  const Pixel seed = {1, 2, 3};
+  Image_set_pixel(&img, 0, 0, seed);
+  Image_set_pixel(&img, 2, 3, seed);
+
+  const Pixel fill = {10, 20, 30};
+  Image_fill(&img, fill);
+
+  for (int r = 0; r < Image_height(&img); ++r) {
+    for (int c = 0; c < Image_width(&img); ++c) {
+      Pixel got = Image_get_pixel(&img, r, c);
+      ASSERT_EQUAL(got.r, 10);
+      ASSERT_EQUAL(got.g, 20);
+      ASSERT_EQUAL(got.b, 30);
+    }
+  }
+}
+
 TEST_MAIN() // Do NOT put a semicolon here
