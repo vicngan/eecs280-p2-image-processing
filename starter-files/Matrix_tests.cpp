@@ -107,13 +107,13 @@ TEST(Matrix_passing_const_Matrix) {
   Matrix mat; 
   Matrix_init(&mat, 2,3);
   *Matrix_at(&mat, 0,0) = 10; 
-  *Matrix_at(&mat, 1,2) = 30;
+  *Matrix_at(&mat, 2,1) = 30;
   const Matrix* const_mat = &mat; 
 
   ASSERT_EQUAL(Matrix_width(const_mat),2);
   ASSERT_EQUAL(Matrix_height(const_mat),3);
   ASSERT_EQUAL(*Matrix_at(const_mat, 0,0),10);
-  ASSERT_EQUAL(*Matrix_at(const_mat, 1,2),30);
+  ASSERT_EQUAL(*Matrix_at(const_mat, 2,1),30);
 }
 
 TEST(identical_min_value_in_row) {
