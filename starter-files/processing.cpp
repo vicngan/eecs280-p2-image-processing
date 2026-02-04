@@ -1,5 +1,6 @@
 #include <cassert>
 #include <vector>
+#include <algorithm>
 #include "processing.hpp"
 
 using namespace std;
@@ -137,20 +138,11 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
       int min_cost = *Matrix_at(cost, r-1, c);
 
       if (c > 0) {
-        int left_cost = *Matrix_at(cost, r-1, c-1);
-        if (left_cost < min_cost) {
-          min_cost = left_cost;
-        }
+        min_cost = std::min(min_cost, *Matrix_at(cost, r -1, c-1));
       }
-
-
       if (c < width - 1) {
-        int right_cost = *Matrix_at(cost, r-1, c+1);
-        if (right_cost < min_cost) {
-          min_cost = right_cost;
-        }
+        min_cost = std::min(min_cost, *Matrix_at(cost, r -1, c+1));
       }
-
       *Matrix_at(cost, r, c) = *Matrix_at(energy, r, c) + min_cost;
     }
   }
